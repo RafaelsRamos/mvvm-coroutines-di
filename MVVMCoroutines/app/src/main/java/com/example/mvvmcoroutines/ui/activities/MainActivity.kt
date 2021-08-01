@@ -1,14 +1,17 @@
-package com.example.mvvmcoroutines
+package com.example.mvvmcoroutines.ui.activities
 
 import android.Manifest
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.example.mvvmcoroutines.R
 import com.example.mvvmcoroutines.cache.databases.PostDao
+import com.example.mvvmcoroutines.databinding.ActivityMainBinding
 import com.example.mvvmcoroutines.models.Post
 import com.example.mvvmcoroutines.ui.MainStateEvent
 import com.example.mvvmcoroutines.ui.MainViewModel
@@ -24,6 +27,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), PermissionListener {
 
+    private lateinit var binding: ActivityMainBinding
+
     private val viewModel: MainViewModel by viewModels()
 
     @Inject
@@ -31,7 +36,14 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color);
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         if (isInternetAvailable()) {
             TedPermission.with(this)
@@ -49,36 +61,16 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
         viewModel.dataState.observe(this, Observer { dataState ->
             when (dataState) {
-                is DataState.Success<List<Post>> -> {
-                    displayProgressBar(false)
-                    appendPosts(dataState.data)
-                }
-                is DataState.Error -> {
-                    displayProgressBar(false)
-                    displayError(dataState.exception.message)
-                }
-                is DataState.Loading -> {
-                    displayProgressBar(true)
-                }
+                is DataState.Success<List<Post>> -> displayProgressBar(false)
+                is DataState.Error -> displayProgressBar(false)
+                is DataState.Loading -> displayProgressBar(true)
             }
         })
 
     }
 
-    private fun displayError(message: String?) {
-        message?.let { text.text = it }
-    }
-
     private fun displayProgressBar(isDisplayed: Boolean) {
         progress_bar.visibility = if (isDisplayed) View.VISIBLE else View.GONE
-    }
-
-    private fun appendPosts(posts: List<Post>) {
-        val sb = StringBuilder()
-        posts.forEach {
-            sb.append("${it.title}\n")
-        }
-        text.text = sb.toString()
     }
 
     //// Handle Permissions
