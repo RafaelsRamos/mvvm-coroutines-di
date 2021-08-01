@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVMCoroutines"
         android:fullBackupContent="true">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -12,6 +12,7 @@ abstract class PostDatabase: RoomDatabase() {
     companion object {
 
         val DATABASE_NAME: String = "post_db"
+
     }
 
 }
