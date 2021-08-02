@@ -3,27 +3,28 @@ package com.example.mvvmcoroutines.ui.activities
 import android.Manifest
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.example.mvvmcoroutines.R
 import com.example.mvvmcoroutines.cache.databases.PostDao
 import com.example.mvvmcoroutines.databinding.ActivityMainBinding
 import com.example.mvvmcoroutines.models.Post
-import com.example.mvvmcoroutines.ui.MainStateEvent
 import com.example.mvvmcoroutines.ui.MainViewModel
 import com.example.mvvmcoroutines.utils.DataState
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import java.net.InetAddress
 import javax.inject.Inject
 
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), PermissionListener {
 
@@ -55,6 +56,11 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
             onPermissionGranted()
         }
+
+        //TODO("Remove below. Just for testing purposes)
+        //viewModel.viewModelScope.launch {
+        //    postDao.nukeTable()
+        //}
     }
 
     private fun subscribeObservers() {
@@ -77,14 +83,15 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
     override fun onPermissionGranted() {
         subscribeObservers()
-        viewModel.setStateEvent(MainStateEvent.GetPostEvents)
+        //viewModel.setStateEvent(MainStateEvent.GetPostEvents)
+        viewModel.setStateEvent(MainViewModel.StateEvent.GetCachedPostsEvents)
     }
 
     override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
 
     }
 
-    fun isInternetAvailable(): Boolean {
+    private fun isInternetAvailable(): Boolean {
         return try {
             val ipAddr: InetAddress = InetAddress.getByName("google.com")
             //You can replace it with your name

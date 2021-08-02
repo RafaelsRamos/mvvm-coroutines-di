@@ -14,6 +14,10 @@ abstract class LiveRecyclerViewAdapter<T, VH>(@ApplicationContext context: Conte
 
     fun updateItems(newItems: List<T>) {
         data.clear()
+        addItems(newItems)
+    }
+
+    fun addItems(newItems: List<T>) {
         data.addAll(newItems)
         notifyDataSetChanged()
     }
