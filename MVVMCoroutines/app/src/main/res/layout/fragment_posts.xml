@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="lifecycleOwner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
+        <variable
+            name="viewModel"
+            type="com.example.mvvmcoroutines.ui.viewmodels.PostsFragmentViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:updatePostsOnSwipe="@{viewModel}"
+            app:updatePostsLifecycleOwner="@{lifecycleOwner}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/posts_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:setPostsViewModel="@{viewModel}"
+                app:setPostsLifecycleOwner="@{lifecycleOwner}"
+                android:backgroundTint="#CCC"
+                android:overScrollMode="never"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

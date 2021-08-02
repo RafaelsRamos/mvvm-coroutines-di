@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="lifecycleOwner"
-            type="androidx.lifecycle.LifecycleOwner" />
+            name="tabsAdapter"
+            type="com.example.mvvmcoroutines.ui.adapters.MainFragmentStateAdapter" />
 
-        <variable
-            name="viewModel"
-            type="com.example.mvvmcoroutines.ui.MainViewModel" />
+        <import type="com.example.mvvmcoroutines.R" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activities.MainActivity">
@@ -24,31 +22,31 @@
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/pullToRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:updatePostsOnSwipe="@{viewModel}"
-            app:updatePostsLifecycleOwner="@{lifecycleOwner}">
+            android:alpha="0"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/posts_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:setPostsViewModel="@{viewModel}"
-                app:setPostsLifecycleOwner="@{lifecycleOwner}"
-                android:backgroundTint="#CCC"
-                android:overScrollMode="never"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:adapter="@{tabsAdapter}"/>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setMainTabsViewPager="@{pager}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
