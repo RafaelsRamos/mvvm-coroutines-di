@@ -1,4 +1,4 @@
-package com.example.mvvmcoroutines.ui
+package com.example.mvvmcoroutines.ui.viewmodels
 
 import androidx.lifecycle.*
 import com.example.mvvmcoroutines.models.Post
@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val mainRepository: MainRepository,
-    private val savedStateHandle: SavedStateHandle
+class PostsFragmentViewModel @Inject constructor(
+        private val mainRepository: MainRepository,
+        private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     companion object {
