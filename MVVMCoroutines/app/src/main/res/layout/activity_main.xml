@@ -29,15 +29,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/posts_recycler"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:setPostsViewModel="@{viewModel}"
-            app:setPostsLifecycleOwner="@{lifecycleOwner}"
-            android:backgroundTint="#CCC"
-            android:overScrollMode="never"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:updatePostsOnSwipe="@{viewModel}"
+            app:updatePostsLifecycleOwner="@{lifecycleOwner}">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/posts_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:setPostsViewModel="@{viewModel}"
+                app:setPostsLifecycleOwner="@{lifecycleOwner}"
+                android:backgroundTint="#CCC"
+                android:overScrollMode="never"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
