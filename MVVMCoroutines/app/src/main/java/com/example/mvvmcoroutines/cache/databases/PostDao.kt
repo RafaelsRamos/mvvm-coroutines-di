@@ -15,4 +15,8 @@ interface PostDao {
     @Query("SELECT * FROM posts")
     suspend fun get(): List<PostCacheEntity>
 
+    // For testing purposes
+    @Query("DELETE FROM posts")
+    suspend fun nukeTable()
+
 }
